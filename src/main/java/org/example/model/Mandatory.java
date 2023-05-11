@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -18,115 +18,121 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Mandatory {
+    private String filePath;
+    private String result;
+    private ArrayList<File> openFile = new ArrayList<>();
 
-    static String mandatory() {
+    public String getResult() {
+        mandatory();
+        return result;
+    }
 
-        String outText;
-        ArrayList<File> files = Read.reading();
-        ArrayList<File> openFile = new ArrayList<>();
-        for (File file:files) {
-            if (file.getName().contains("КД") && file.getName().contains("ver.2")){
-                openFile.add(file);
-            }
-        }
+    private void setOpenFile() {
+        this.openFile = new Files().getFiles("ver.2");
+    }
+
+    private void setFilePath() {
+        this.filePath = new Save().getSelectedFilePath();
+    }
 
 
-        if (openFile.isEmpty()){
-            return  "Ошибка выбора.";
-        }else {
+    public void mandatory() {
 
-            String fileName = Files.save();
+        setOpenFile();
 
-            if (fileName.equals("")){
-                return "Ошибка выбора." ;
-            }else {
+        if (openFile.isEmpty()) {
+            result = "В выбранной папке отсутствуют файлы для получения ОЗ.";
+        } else {
 
-                boolean fileExists = false;
+          setFilePath();
 
-                if (new File(fileName).exists()) {
+            if (filePath.isEmpty()) {
+                result = "Не выбран файл для сохранения.";
+            } else {
 
-                    try (XSSFWorkbook saveBook = new XSSFWorkbook(new FileInputStream(fileName))) {
+                if (new File(filePath).exists()) {
 
-                        outText =  write(fileName, true, saveBook, openFile);
+                    try (XSSFWorkbook saveBook = new XSSFWorkbook(new FileInputStream(filePath))) {
+
+                        result = write(filePath, true, saveBook, openFile);
 
                     } catch (IOException e) {
-                        return "Не удалось обработать файл.";
+                        result =  "Не удалось обработать файл.";
                     }
 
                 } else {
 
                     try (XSSFWorkbook saveBook = new XSSFWorkbook()) {
-                        outText = write(fileName + ".xlsx", false, saveBook, openFile);
+                        result = write(filePath + ".xlsx", false, saveBook, openFile);
                     } catch (IOException e) {
-                        return "Не удалось обработать файл.";
+                        result = "Не удалось создать новый файл.";
 
                     }
                 }
             }
         }
-        return outText;
     }
 
-    static String write(String fileName, boolean fileExists, XSSFWorkbook saveBook, ArrayList<File> openFile)  {
+    private String write(String fileName,
+                        boolean fileExists,
+                        XSSFWorkbook saveBook,
+                        ArrayList<File> openFile) {
 
         String textCatch = "";
-        String text= "";
+        StringBuilder text = new StringBuilder();
         Pattern pattern = Pattern.compile("[^КД].*[^\\Sv]");
-        String nameFile = new File(fileName).getName().replace(".xlsx","");
+        String nameFile = new File(fileName).getName().
+                replace(".xlsx", "");
 
-
-        file:
-
-        for (int i = 0; i < openFile.size(); i++){
+        for (int i = 0; i < openFile.size(); i++) {
             File file = openFile.get(i);
 
             Matcher matcher = pattern.matcher(file.getName());
 
-            try (XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(file))) {
+            try (XSSFWorkbook workbook = new XSSFWorkbook(
+                    new FileInputStream(file))) {
 
                 XSSFSheet openSheet = workbook.getSheet("Ремонт");
-                XSSFSheet newSheet ;
-                String preSheetName ;
-                String sheetName ;
+                XSSFSheet newSheet;
+                String preSheetName;
+                String sheetName;
 
                 if (matcher.find()) {
                     preSheetName = matcher.group().trim();
-                }else{
-                    return  "Ошибка выбора имени файла.";
+                } else {
+                    return "Ошибка в получении предполагаемого имени ОЗ (листа).";
                 }
 
-                sheetName = JOptionPane.showInputDialog(null, "Введите название ОЗ (листа).", preSheetName);
-                if (sheetName == null) return "Не выьрано название.";
+                sheetName = JOptionPane.showInputDialog(null,
+                        "Введите название ОЗ (листа).",
+                        preSheetName);
+                if (sheetName == null)
+                    return "Не выбрано имя ОЗ (листа) для сохранения.";
 
-                if (fileExists){
+                if (fileExists) {
 
-                    boolean IllegalArgumentException = false;
                     try {
                         newSheet = saveBook.createSheet(sheetName);
                     } catch (IllegalArgumentException e) {
-                        JOptionPane.showMessageDialog(null, "Такое ОЗ уже существует в файле \"" + nameFile + "\".");
-                        continue file;
+                        JOptionPane.showMessageDialog(null,
+                                "Такое ОЗ уже существует в файле \"" +
+                                        nameFile + "\".");
+                        continue;
                     }
 
-                    if (IllegalArgumentException) {
-                        newSheet = saveBook.createSheet(sheetName);
-                    }
-
-                }else {
+                } else {
                     newSheet = saveBook.createSheet(sheetName);
                 }
 
-                if (i == openFile.size() - 1){
-                    text = text + sheetName + ".";
+                if (i == openFile.size() - 1) {
+                    text.append(sheetName).append(".");
                 } else {
-                    text = text + sheetName + ", ";
+                    text.append(sheetName).append(",\n\t");
                 }
-
-
 
                 int rows = 7;
                 int colPart = 0;
-                int colQuantry = 1;
+                int colQuantity = 1;
                 int colName = 2;
                 int colLabor = 0;
 
@@ -163,7 +169,7 @@ public class Mandatory {
                 newSheet.setColumnWidth(2, 7000);
 
                 XSSFCell partTemp = newSheet.getRow(6).createCell(4);
-                XSSFCell countrTemp = newSheet.getRow(6).createCell(5);
+                XSSFCell countTemp = newSheet.getRow(6).createCell(5);
                 XSSFCell nameTemp = newSheet.getRow(6).createCell(6);
 
                 XSSFCell nameList = row1.createCell(0);
@@ -175,24 +181,23 @@ public class Mandatory {
                 labor.setCellValue("Трудозатраты");
                 labor.setCellStyle(styleFont);
 
-                XSSFCell laborQuantry = row2.createCell(colLabor + 1);
-                laborQuantry.setCellValue(0);
-                laborQuantry.setCellStyle(center);
+                XSSFCell laborQuant = row2.createCell(colLabor + 1);
+                laborQuant.setCellValue(0);
+                laborQuant.setCellStyle(center);
 
                 XSSFCell test = row3.createCell(colLabor);
                 test.setCellValue("Тест");
                 test.setCellStyle(styleFont);
 
-                XSSFCell testQuantry = row3.createCell(colLabor + 1);
-                testQuantry.setCellValue(0);
-                testQuantry.setCellStyle(center);
+                XSSFCell testQuantity = row3.createCell(colLabor + 1);
+                testQuantity.setCellValue(0);
+                testQuantity.setCellStyle(center);
 
                 XSSFCell laborTotalName = row4.createCell(colLabor);
                 laborTotalName.setCellValue("Всего (ч/ч)");
                 laborTotalName.setCellStyle(styleFont);
 
                 XSSFCell laborTotal = row4.createCell(colLabor + 1);
-                // laborTotal.setCellValue(laborQuantry.getNumericCellValue() + testQuantry.getNumericCellValue());
                 laborTotal.setCellFormula("B3+B4");
                 laborTotal.setCellStyle(center);
 
@@ -200,7 +205,7 @@ public class Mandatory {
                 partNumer.setCellValue("Парт номер");
                 partNumer.setCellStyle(styleFont);
 
-                XSSFCell quantity = row5.createCell(colQuantry);
+                XSSFCell quantity = row5.createCell(colQuantity);
                 quantity.setCellValue("Кол-во");
                 quantity.setCellStyle(styleFont);
 
@@ -227,12 +232,17 @@ public class Mandatory {
 
                                 for (int k = 7; k <= newSheet.getLastRowNum(); k++) {
 
-                                    XSSFCell newpart = newSheet.getRow(k).getCell(0);
-                                    XSSFCell newcountr = newSheet.getRow(k).getCell(1);
+                                    XSSFCell newPart = newSheet.getRow(k)
+                                            .getCell(0);
+                                    XSSFCell newCount = newSheet.getRow(k)
+                                            .getCell(1);
 
 
-                                    if (newpart.toString().equals(partOpen.toString())) {
-                                        newcountr.setCellValue(newcountr.getNumericCellValue() + qtyOpen.getNumericCellValue());
+                                    if (newPart.toString().
+                                            equals(partOpen.toString())) {
+                                        newCount.setCellValue(newCount.
+                                                getNumericCellValue()
+                                                + qtyOpen.getNumericCellValue());
                                         located = true;
                                     }
                                 }
@@ -243,7 +253,7 @@ public class Mandatory {
                                     newPart.setCellValue(partOpen.toString());
                                     newPart.setCellStyle(borders);
 
-                                    XSSFCell newCounts = newRow.createCell(colQuantry);
+                                    XSSFCell newCounts = newRow.createCell(colQuantity);
                                     newCounts.setCellValue(qtyOpen.getNumericCellValue());
                                     newCounts.setCellStyle(center);
 
@@ -257,6 +267,7 @@ public class Mandatory {
                         }
                     }
                 }
+
                 boolean sorted = false;
 
                 while (!sorted) {
@@ -264,62 +275,57 @@ public class Mandatory {
                     for (int l = 7; l < newSheet.getLastRowNum(); l++) {
 
                         XSSFCell part = newSheet.getRow(l).getCell(0);
-                        XSSFCell countr = newSheet.getRow(l).getCell(1);
+                        XSSFCell count = newSheet.getRow(l).getCell(1);
                         XSSFCell name = newSheet.getRow(l).getCell(2);
 
                         XSSFCell part1 = newSheet.getRow(l + 1).getCell(0);
-                        XSSFCell countr1 = newSheet.getRow(l + 1).getCell(1);
+                        XSSFCell count1 = newSheet.getRow(l + 1).getCell(1);
                         XSSFCell name1 = newSheet.getRow(l + 1).getCell(2);
 
                         if (part1.toString().compareTo(part.toString()) < 0) {
 
                             partTemp.setCellValue(part.toString());
-                            countrTemp.setCellValue(countr.getNumericCellValue());
+                            countTemp.setCellValue(count.getNumericCellValue());
                             nameTemp.setCellValue(name.toString());
 
                             part.setCellValue(part1.toString());
-                            countr.setCellValue(countr1.getNumericCellValue());
+                            count.setCellValue(count1.getNumericCellValue());
                             name.setCellValue(name1.toString());
 
                             part1.setCellValue(partTemp.toString());
-                            countr1.setCellValue(countrTemp.getNumericCellValue());
+                            count1.setCellValue(countTemp.getNumericCellValue());
                             name1.setCellValue(nameTemp.toString());
 
                             sorted = false;
-
                         }
                     }
                 }
 
-                if(!(partTemp == null)){
+                if ((partTemp != null)) {
                     newSheet.getRow(6).removeCell(partTemp);
-                    newSheet.getRow(6).removeCell(countrTemp);
+                    newSheet.getRow(6).removeCell(countTemp);
                     newSheet.getRow(6).removeCell(nameTemp);
                 }
-
 
                 try (FileOutputStream uotFile = new FileOutputStream(fileName)) {
                     saveBook.write(uotFile);
                 } catch (IOException e) {
-
-                    return  "Не удалось обработать файл - \"" + nameFile + "\".";
-
+                    return "Не удалось записать файл - \"" + nameFile + "\".";
                 }
+
             } catch (IOException e) {
-
-                textCatch = "Не удалось обработать файл - " + file.getName().replace(".xlsx","");
-
+                textCatch = "Не удалось обработать файл - " +
+                        file.getName().replace(".xlsx", "");
             }
-
         }
-        if (text.equals("")){
-            return "В файле \"" + nameFile +"\" нет данных для получения ОЗ";
-        } else if (fileExists){
-            return "Файл \"" + nameFile +"\" - обновлён.\nДобавлено ОЗ: " + text + "\n" + textCatch ;
+        if (text.toString().equals("")) {
+            return "В файле \"" + nameFile + "\" уже есть выбранные ОЗ.";
+        } else if (fileExists) {
+            return "Файл \"" + nameFile + "\" - обновлён.\nДобавлено ОЗ: "
+                    + text + "\n" + textCatch;
         } else {
-            return "Файл \"" + nameFile +"\" - создан.\nДобавлено ОЗ: " + text + "\n" + textCatch ;
+            return "Файл \"" + nameFile + "\" - создан.\nВставлено ОЗ: "
+                    + text + "\n" + textCatch;
         }
-
-
     }
 }
