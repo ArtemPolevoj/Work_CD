@@ -27,7 +27,6 @@ public class Files {
         this.openDir = new Open().getSelectedFiles();
     }
 
-
     private void getList() {
         setOpenDir();
 
@@ -49,7 +48,6 @@ public class Files {
                 files = Vizit.get(check);
             }
         }
-
     }
 
     private static class Vizit extends SimpleFileVisitor<Path> {

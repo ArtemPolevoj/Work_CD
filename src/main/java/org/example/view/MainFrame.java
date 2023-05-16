@@ -1,13 +1,11 @@
 package org.example.view;
 
-import org.example.controller.Controller;
-
 
 import javax.swing.*;
 import java.awt.*;
 
 
-public class MainFrame  implements Runnable{
+abstract class MainFrame implements Runnable {
     private final JFrame FRAME = new JFrame("Работа с КД");
     private final JLabel LABEL_REPLACE = new JLabel("Заменить");
     private final JLabel LABEL_REPLACEMENT = new JLabel("Заменить на");
@@ -18,12 +16,12 @@ public class MainFrame  implements Runnable{
     private final JScrollPane SCROLL_FIELD_OUT_TEXT = new JScrollPane(AREA_OUT_TEXT);
     JButton BUTTON_MANDATORY = new JButton("Получить ОЗ");
     private final JButton BUTTON_EXIT = new JButton("ВЫХОД");
-    private final Controller CONTROLLER;
+//    private final Controller CONTROLLER;
 
 
-    public MainFrame(Controller controller) {
-        CONTROLLER = controller;
-    }
+//    public MainFrame(Controller controller) {
+//        CONTROLLER = controller;
+//    }
 
     @Override
     public void run() {
@@ -58,11 +56,10 @@ public class MainFrame  implements Runnable{
 
         BUTTON_REPLACE.setFont(new Font("Verdana", Font.BOLD, 16));
         BUTTON_REPLACE.setBounds(10, 50, 630, 50);
-        BUTTON_REPLACE.addActionListener(e -> AREA_OUT_TEXT.append(
-                CONTROLLER.replacement(
-
-                        FIELD_REPLACE.getText(),
-                        FIELD_REPLACEMENT.getText())));
+//        BUTTON_REPLACE.addActionListener(e -> AREA_OUT_TEXT.append(
+//                CONTROLLER.replacement(
+//                        FIELD_REPLACE.getText(),
+//                        FIELD_REPLACEMENT.getText())));
 
         BUTTON_REPLACE.setBorderPainted(true);
 
@@ -76,8 +73,8 @@ public class MainFrame  implements Runnable{
         BUTTON_MANDATORY.setBorderPainted(true);
         BUTTON_MANDATORY.setBounds(10, 320, 630, 50);
 
-        BUTTON_MANDATORY.addActionListener(e ->
-                AREA_OUT_TEXT.append(CONTROLLER.mandatory()));
+//        BUTTON_MANDATORY.addActionListener(e ->
+//                AREA_OUT_TEXT.append(CONTROLLER.mandatory()));
 
 
         BUTTON_EXIT.setFont(new Font("Verdana", Font.BOLD, 20));

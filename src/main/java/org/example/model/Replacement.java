@@ -37,7 +37,6 @@ public class Replacement {
     }
 
 
-
     private void replace() {
 
         setOpenFile();
@@ -76,8 +75,9 @@ public class Replacement {
                     result += switch (amount) {
                         case (0) -> "В файле \"" + nameFile
                                 + "\" отсутствуют совпадения.\n";
-                        case (1),(21),(31),(41) -> "В файле \"" + nameFile + "\" выполнена "
-                                + amount + " замена.\n";
+                        case (1), (21), (31), (41) ->
+                                "В файле \"" + nameFile + "\" выполнена "
+                                        + amount + " замена.\n";
                         case (2), (3), (4), (22), (23), (24) ->
                                 "В файле \"" + nameFile + "\" выполнено "
                                         + amount + " замены.\n";
@@ -91,5 +91,4 @@ public class Replacement {
             }
         }
     }
-
 }
