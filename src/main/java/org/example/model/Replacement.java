@@ -13,37 +13,38 @@ import java.util.Iterator;
 
 public class Replacement {
     private String worldReplace;
-    private String worldReplacement;
-    private String result = "";
+    private  String worldReplacement;
 
-    private ArrayList<File> openFile = new ArrayList<>();
+    private final StringBuilder RESULT = new StringBuilder();
+
+    private  ArrayList<File> openFile = new ArrayList<>();
 
 
-    public String getResult() {
+    public String getResult(String worldReplace, String worldReplacement) {
+        setWorldReplace(worldReplace);
+        setWorldReplacement(worldReplacement);
         replace();
-        return result;
+        return RESULT.toString();
     }
 
     private void setOpenFile() {
         this.openFile = new Files().getFiles("xlsx");
     }
 
-    public void setWorldReplace(String worldReplace) {
+    private void setWorldReplace(String worldReplace) {
         this.worldReplace = worldReplace;
     }
 
-    public void setWorldReplacement(String worldReplacement) {
+    private void setWorldReplacement(String worldReplacement) {
         this.worldReplacement = worldReplacement;
     }
-
 
     private void replace() {
 
         setOpenFile();
 
         if (openFile.isEmpty()) {
-            result = "Не выбран файл.";
-
+                RESULT.append("Не выбран файл.");
         } else {
             for (File file : openFile) {
                 int amount = 0;
@@ -52,8 +53,6 @@ public class Replacement {
                         new FileInputStream(file))) {
                     for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
                         Sheet sheet = workbook.getSheetAt(s);
-
-                        // Sheet sheet = workbook.getSheet("Ремонт");
 
                         for (Row row : sheet) {
 
@@ -72,7 +71,7 @@ public class Replacement {
                         workbook.write(writeFile);
                     }
                     workbook.close();
-                    result += switch (amount) {
+                    RESULT.append(switch (amount) {
                         case (0) -> "В файле \"" + nameFile
                                 + "\" отсутствуют совпадения.\n";
                         case (1), (21), (31), (41) ->
@@ -83,10 +82,11 @@ public class Replacement {
                                         + amount + " замены.\n";
                         default -> "В файле \"" + nameFile + "\" выполнено "
                                 + amount + " замен.\n";
-                    };
+                    }) ;
                 } catch (Exception e) {
-                    result += "В файле \"" + nameFile + "\" произошла ошибка."
-                            + " Проверьте файл.\n";
+                    RESULT.append("В файле \"")
+                            .append(nameFile)
+                            .append("\" произошла ошибка.").append(" Проверьте файл.\n");
                 }
             }
         }
