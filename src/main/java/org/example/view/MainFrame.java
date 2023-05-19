@@ -23,6 +23,7 @@ public class MainFrame implements Runnable {
     private final JScrollPane SCROLL_FIELD_OUT_TEXT = new JScrollPane(AREA_OUT_TEXT);
     private final JButton BUTTON_EXIT = new JButton("бшунд");
     private final Font FONT = new Font("Verdana", Font.BOLD, 14);
+    private final Font FONT_BUTTON = new Font("Verdana", Font.BOLD, 18);
 
     @Override
     public void run() {
@@ -44,14 +45,14 @@ public class MainFrame implements Runnable {
         AREA_OUT_TEXT.setLineWrap(true);
         AREA_OUT_TEXT.setWrapStyleWord(true);
 
-        BUTTON_REPLACE.setFont(FONT);
+        BUTTON_REPLACE.setFont(FONT_BUTTON);
         BUTTON_REPLACE.setBounds(10, 50, 630, 50);
         BUTTON_REPLACE.setBorderPainted(true);
         BUTTON_REPLACE.addActionListener(e -> AREA_OUT_TEXT.append(
                 controllerButton.replacement(
                         FIELD_REPLACE.getText(),
                         FIELD_REPLACEMENT.getText())));
-        BUTTON_MANDATORY.setFont(FONT);
+        BUTTON_MANDATORY.setFont(FONT_BUTTON);
         BUTTON_MANDATORY.setBounds(10, 320, 630, 50);
         BUTTON_MANDATORY.setBorderPainted(true);
         BUTTON_MANDATORY.addActionListener(e ->
@@ -61,7 +62,7 @@ public class MainFrame implements Runnable {
         SCROLL_FIELD_OUT_TEXT.setVisible(true);
         SCROLL_FIELD_OUT_TEXT.setBounds(10, 120, 630, 180);
 
-        BUTTON_EXIT.setFont(FONT);
+        BUTTON_EXIT.setFont(FONT_BUTTON);
         BUTTON_EXIT.setBorderPainted(true);
         BUTTON_EXIT.setBounds(10, 420, 630, 50);
         BUTTON_EXIT.addActionListener(e -> System.exit(0));
