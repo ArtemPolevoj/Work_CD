@@ -18,12 +18,16 @@ public class Files {
     private String check;
 
     public ArrayList<File> getFiles(String check) {
-        this.check = check;
+        setCheck(check);
         getList();
         return files;
     }
 
-    public void setOpenDir() {
+    private void setCheck(String check) {
+        this.check = check;
+    }
+
+    private void setOpenDir() {
         this.openDir = new Open().getSelectedFiles();
     }
 

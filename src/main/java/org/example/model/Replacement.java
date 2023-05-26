@@ -15,7 +15,7 @@ public class Replacement {
     private String worldReplace;
     private  String worldReplacement;
 
-    private final StringBuilder RESULT = new StringBuilder();
+    private final StringBuilder result = new StringBuilder();
 
     private  ArrayList<File> openFile = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class Replacement {
         setWorldReplace(worldReplace);
         setWorldReplacement(worldReplacement);
         replace();
-        return RESULT.toString();
+        return result.toString();
     }
 
     private void setOpenFile() {
@@ -44,7 +44,7 @@ public class Replacement {
         setOpenFile();
 
         if (openFile.isEmpty()) {
-                RESULT.append("Не выбран файл.");
+                result.append("Не выбран файл.");
         } else {
             for (File file : openFile) {
                 int amount = 0;
@@ -71,7 +71,7 @@ public class Replacement {
                         workbook.write(writeFile);
                     }
                     workbook.close();
-                    RESULT.append(switch (amount) {
+                    result.append(switch (amount) {
                         case (0) -> "В файле \"" + nameFile
                                 + "\" отсутствуют совпадения.\n";
                         case (1), (21), (31), (41) ->
@@ -84,7 +84,7 @@ public class Replacement {
                                 + amount + " замен.\n";
                     }) ;
                 } catch (Exception e) {
-                    RESULT.append("В файле \"")
+                    result.append("В файле \"")
                             .append(nameFile)
                             .append("\" произошла ошибка.").append(" Проверьте файл.\n");
                 }
