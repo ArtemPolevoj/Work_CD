@@ -4,21 +4,21 @@ import org.example.model.Mandatory;
 import org.example.model.Replacement;
 
 public class ControllerButton {
-    private final Mandatory MANDATORY;
-    private final Replacement REPLACEMENT;
+    private final Mandatory mandatory;
+    private final Replacement replacement;
 
     public ControllerButton(Mandatory mandatory, Replacement replacement) {
-        MANDATORY = mandatory;
-        REPLACEMENT = replacement;
+        this.mandatory = mandatory;
+        this.replacement = replacement;
     }
 
     public String mandatory() {
-        return MANDATORY.getResult();
+        return mandatory.getResult();
     }
 
 
     public String replacement(String worldReplace, String worldReplacement) {
-        return REPLACEMENT.getResult(worldReplace, worldReplacement);
+        return replacement.getResult(worldReplace, worldReplacement);
     }
 
 }

@@ -4,13 +4,12 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 abstract class FileChooser extends JFileChooser {
-    JFileChooser fileChooser = new JFileChooser();
 
     void settingExcel() {
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        fileChooser.setMultiSelectionEnabled(true);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter
+        super.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        super.setMultiSelectionEnabled(true);
+        super.setAcceptAllFileFilterUsed(false);
+        super.addChoosableFileFilter(new FileNameExtensionFilter
                 ("Excel.xlsx", "xlsx"));
     }
 }

@@ -5,10 +5,10 @@ public class Save extends FileChooser {
 
     private void filePath() {
         super.settingExcel();
-        fileChooser.setDialogTitle("Выберете и создайте файл для сохранения.");
-        int i = fileChooser.showSaveDialog(null);
+        super.setDialogTitle("Выберете и создайте файл для сохранения.");
+        int i = super.showSaveDialog(null);
         if (i == 1) selectedFilePath = "";
-        else selectedFilePath =  fileChooser.getSelectedFile().getPath();
+        else selectedFilePath =  super.getSelectedFile().getPath();
     }
 
     public String getSelectedFilePath() {
