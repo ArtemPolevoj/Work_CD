@@ -41,13 +41,13 @@ public class Mandatory {
         setOpenFile();
 
         if (openFile.isEmpty()) {
-            result = "В выбранной папке отсутствуют файлы для получения ОЗ.";
+            result = "В выбранной папке отсутствуют файлы для получения ОЗ.\n";
         } else {
 
           setFilePath();
 
             if (filePath.isEmpty()) {
-                result = "Не выбран файл для сохранения.";
+                result = "Не выбран файл для сохранения.\n";
             } else {
 
                 if (new File(filePath).exists()) {
@@ -57,7 +57,7 @@ public class Mandatory {
                         result = write(filePath, true, saveBook, openFile);
 
                     } catch (IOException e) {
-                        result =  "Не удалось обработать файл.";
+                        result =  "Не удалось обработать файл.\n";
                     }
 
                 } else {
@@ -65,7 +65,7 @@ public class Mandatory {
                     try (XSSFWorkbook saveBook = new XSSFWorkbook()) {
                         result = write(filePath + ".xlsx", false, saveBook, openFile);
                     } catch (IOException e) {
-                        result = "Не удалось создать новый файл.";
+                        result = "Не удалось создать новый файл.\n";
 
                     }
                 }
