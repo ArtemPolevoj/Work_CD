@@ -107,6 +107,9 @@ public class Replacement {
                     replace();
                 }
             }
+        } else {
+            setOpenFile();
+            replace();
         }
     }
 }
