@@ -9,10 +9,12 @@ public class ContRepl implements Repl {
     }
 
     private final Replacement replacement;
-    public  void repls(){
 
-            areaOutText.append(replacement.getResult(
-                    textField.getText(),
-                    fieldReplacement.getText()));;
+    public void repls() {
+        areaOutText.append("Замена " + textField.getText() + " на " + fieldReplacement.getText() + "\n");
+        areaOutText.append(replacement.getResult(
+                textField.getText(),
+                fieldReplacement.getText()));
+        ;
     }
 }

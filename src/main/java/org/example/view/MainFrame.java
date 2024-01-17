@@ -5,9 +5,10 @@ import org.example.controller.ContRepl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 
-public class MainFrame extends JFrame implements Runnable, Repl, TextArea {
+public class MainFrame extends JFrame implements Runnable, Repl {
 
     private final ContRepl contRepl;
     private final ContMand contMand;

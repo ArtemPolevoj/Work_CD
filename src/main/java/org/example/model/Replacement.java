@@ -30,7 +30,7 @@ public class Replacement {
 
 
     private void setOpenFile() {
-        this.openFile = new Files().getFiles("xlsx");
+        this.openFile = new Files().getFiles("ver.2");
     }
 
     private void setWorldReplace(String worldReplace) {
