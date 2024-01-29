@@ -15,6 +15,6 @@ public class ContRepl implements Repl {
         areaOutText.append(replacement.getResult(
                 textField.getText(),
                 fieldReplacement.getText()));
-        ;
+
     }
 }

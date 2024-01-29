@@ -30,7 +30,7 @@ public class Replacement {
 
 
     private void setOpenFile() {
-        this.openFile = new Files().getFiles("ver.2");
+        this.openFile = new Files().getFiles("");
     }
 
     private void setWorldReplace(String worldReplace) {
@@ -43,6 +43,7 @@ public class Replacement {
     }
 
     private void replace() {
+
         for (File file : openFile) {
             int amount = 0;
             String nameFile = file.getName();
@@ -86,6 +87,7 @@ public class Replacement {
                         .append("\" произошла ошибка.").append(" Проверьте файл.\n");
             }
         }
+
     }
 
     private void setResult() {
@@ -109,7 +111,11 @@ public class Replacement {
             }
         } else {
             setOpenFile();
-            replace();
+            if (openFile.isEmpty()) {
+                result.append("Не выбран файл.\n");
+            } else {
+                replace();
+            }
         }
     }
 }
