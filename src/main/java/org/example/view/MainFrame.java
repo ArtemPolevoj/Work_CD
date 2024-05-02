@@ -28,7 +28,6 @@ public class MainFrame extends JFrame implements Runnable, Repl {
         JLabel labelReplacement = new JLabel("Заменить на");
         JScrollPane scrollFieldOutText = new JScrollPane(areaOutText);
         JButton buttonExit = new JButton("ВЫХОД");
-        buttonExit.setText("ÂÛÕÎÄ");
 
         areaOutText.setText("Вывод результатов работы:\n");
         areaOutText.setLineWrap(true);
