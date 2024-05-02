@@ -21,16 +21,16 @@ public class MainFrame extends JFrame implements Runnable, Repl {
 
     @Override
     public void run() {
-        JButton buttonReplace = new JButton("Выполнить замену");
+        JButton buttonReplace = new JButton("Р’С‹РїРѕР»РЅРёС‚СЊ Р·Р°РјРµРЅСѓ");
 
-        JButton buttonMandatory = new JButton("Получить ОЗ");
-        JLabel labelReplace = new JLabel("Заменить");
-        JLabel labelReplacement = new JLabel("Заменить на");
+        JButton buttonMandatory = new JButton("РџРѕР»СѓС‡РёС‚СЊ РћР—");
+        JLabel labelReplace = new JLabel("Р—Р°РјРµРЅРёС‚СЊ");
+        JLabel labelReplacement = new JLabel("Р—Р°РјРµРЅРёС‚СЊ РЅР°");
         JScrollPane scrollFieldOutText = new JScrollPane(areaOutText);
-        JButton buttonExit = new JButton("ВЫХОД");
-        buttonExit.setText("ВЫХОД");
+        JButton buttonExit = new JButton("Р’Р«РҐРћР”");
+        buttonExit.setText("Г‚Г›Г•ГЋГ„");
 
-        areaOutText.setText("Вывод результатов работы:\n");
+        areaOutText.setText("Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ СЂР°Р±РѕС‚С‹:\n");
         areaOutText.setLineWrap(true);
         areaOutText.setWrapStyleWord(true);
         Font fontField = new Font("Verdana", Font.BOLD, 14);
