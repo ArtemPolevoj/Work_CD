@@ -7,7 +7,7 @@ public class Open extends FileChooser {
 
     private void getFiles() {
         super.settingExcel();
-        super.setDialogTitle("Выберете папку или файл(ы) для обработки.");
+        super.setDialogTitle("Р’С‹Р±РµСЂРµС‚Рµ РїР°РїРєСѓ РёР»Рё С„Р°Р№Р»(С‹) РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё.");
         super.showOpenDialog(null);
         selectedFiles = super.getSelectedFiles();
     }
