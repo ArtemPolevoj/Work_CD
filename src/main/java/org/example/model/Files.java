@@ -46,8 +46,8 @@ public class Files {
                     java.nio.file.Files.walkFileTree(path, vizit);
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null,
-                            "Не удалось обработать " + fileOpen,
-                            "Ошибка обработки", JOptionPane.ERROR_MESSAGE);
+                            "РќРµ СѓРґР°Р»РѕСЃСЊ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ " + fileOpen,
+                            "РћС€РёР±РєР° РѕР±СЂР°Р±РѕС‚РєРё", JOptionPane.ERROR_MESSAGE);
                 }
                 files = Vizit.get(check);
             }
