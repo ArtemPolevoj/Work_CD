@@ -35,23 +35,23 @@ public class Mandatory {
     public void mandatory() {
         setOpenFile();
         if (openFile.isEmpty()) {
-            result = "В выбранной папке отсутствуют файлы для получения ОЗ.\n";
+            result = "Р’ РІС‹Р±СЂР°РЅРЅРѕР№ РїР°РїРєРµ РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ С„Р°Р№Р»С‹ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РћР—.\n";
         } else {
             setFilePath();
             if (filePath.isEmpty()) {
-                result = "Не выбран файл для сохранения.\n";
+                result = "РќРµ РІС‹Р±СЂР°РЅ С„Р°Р№Р» РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ.\n";
             } else {
                 if (new File(filePath).exists()) {
                     try (XSSFWorkbook saveBook = new XSSFWorkbook(new FileInputStream(filePath))) {
                         result = write(filePath, true, saveBook);
                     } catch (IOException e) {
-                        result = "Не удалось обработать файл.\n";
+                        result = "РќРµ СѓРґР°Р»РѕСЃСЊ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ С„Р°Р№Р».\n";
                     }
                 } else {
                     try (XSSFWorkbook saveBook = new XSSFWorkbook()) {
                         result = write(filePath + ".xlsx", false, saveBook);
                     } catch (IOException e) {
-                        result = "Не удалось создать новый файл.\n";
+                        result = "РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ РЅРѕРІС‹Р№ С„Р°Р№Р».\n";
                     }
                 }
             }
@@ -64,7 +64,7 @@ public class Mandatory {
 
         StringBuilder textCatch = new StringBuilder();
         StringBuilder text = new StringBuilder();
-        Pattern pattern = Pattern.compile("[^КД].*[^\\Sv]");
+        Pattern pattern = Pattern.compile("[^РљР”].*[^\\Sv]");
         String nameFile = new File(fileName).getName().
                 replace(".xlsx", "");
 
@@ -80,7 +80,7 @@ public class Mandatory {
                 setPartList(file);
                 partList.sort(null);
             } catch (Exception e) {
-                textCatch.append("Не удалось обработать файл - ")
+                textCatch.append("РќРµ СѓРґР°Р»РѕСЃСЊ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ С„Р°Р№Р» - ")
                         .append(file.getName().replace(".xlsx", "\n"));
             }
             Matcher matcher = pattern.matcher(file.getName());
@@ -88,21 +88,21 @@ public class Mandatory {
             if (matcher.find()) {
                 preSheetName = matcher.group().trim();
             } else {
-                return "Ошибка в получении предполагаемого имени ОЗ (листа).";
+                return "РћС€РёР±РєР° РІ РїРѕР»СѓС‡РµРЅРёРё РїСЂРµРґРїРѕР»Р°РіР°РµРјРѕРіРѕ РёРјРµРЅРё РћР— (Р»РёСЃС‚Р°).";
             }
 
             sheetName = JOptionPane.showInputDialog(null,
-                    "Введите название ОЗ (листа).",
+                    "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РћР— (Р»РёСЃС‚Р°).",
                     preSheetName);
             if (sheetName == null)
-                return "Не выбрано имя ОЗ (листа) для сохранения.";
+                return "РќРµ РІС‹Р±СЂР°РЅРѕ РёРјСЏ РћР— (Р»РёСЃС‚Р°) РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ.";
 
             if (fileExists) {
                 try {
                     newSheet = saveBook.createSheet(sheetName);
                 } catch (IllegalArgumentException e) {
                     JOptionPane.showMessageDialog(null,
-                            "Такое ОЗ уже существует в файле \"" +
+                            "РўР°РєРѕРµ РћР— СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РІ С„Р°Р№Р»Рµ "" +
                                     nameFile + "\".");
                     continue;
                 }
@@ -164,7 +164,7 @@ public class Mandatory {
             nameList.setCellStyle(styleFont);
 
             XSSFCell labor = row2.createCell(colLabor);
-            labor.setCellValue("Трудозатраты");
+            labor.setCellValue("РўСЂСѓРґРѕР·Р°С‚СЂР°С‚С‹");
             labor.setCellStyle(styleFont);
 
             XSSFCell laborQuantity = row2.createCell(colLabor + 1);
@@ -172,7 +172,7 @@ public class Mandatory {
             laborQuantity.setCellStyle(center);
 
             XSSFCell test = row3.createCell(colLabor);
-            test.setCellValue("Тест");
+            test.setCellValue("РўРµСЃС‚");
             test.setCellStyle(styleFont);
 
             XSSFCell testQuantity = row3.createCell(colLabor + 1);
@@ -180,7 +180,7 @@ public class Mandatory {
             testQuantity.setCellStyle(center);
 
             XSSFCell laborTotalName = row4.createCell(colLabor);
-            laborTotalName.setCellValue("Всего (ч/ч)");
+            laborTotalName.setCellValue("Р’СЃРµРіРѕ (С‡/С‡)");
             laborTotalName.setCellStyle(styleFont);
 
             XSSFCell laborTotal = row4.createCell(colLabor + 1);
@@ -188,19 +188,19 @@ public class Mandatory {
             laborTotal.setCellStyle(center);
 
             XSSFCell partNumber = row5.createCell(colPart);
-            partNumber.setCellValue("Парт номер");
+            partNumber.setCellValue("РџР°СЂС‚ РЅРѕРјРµСЂ");
             partNumber.setCellStyle(styleFont);
 
             XSSFCell quantity = row5.createCell(colQuantity);
-            quantity.setCellValue("Кол-во");
+            quantity.setCellValue("РљРѕР»-РІРѕ");
             quantity.setCellStyle(styleFont);
 
             XSSFCell partName = row5.createCell(colName);
-            partName.setCellValue("Название");
+            partName.setCellValue("РќР°Р·РІР°РЅРёРµ");
             partName.setCellStyle(styleFont);
 
             XSSFCell partType = row5.createCell(colType);
-            partType.setCellValue("Тип");
+            partType.setCellValue("РўРёРї");
             partType.setCellStyle(styleFont);
             //endregion
 
@@ -229,17 +229,17 @@ public class Mandatory {
             try (FileOutputStream uotFile = new FileOutputStream(fileName)) {
                 saveBook.write(uotFile);
             } catch (IOException e) {
-                return "Не удалось записать файл - \"" + nameFile + "\".";
+                return "РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ С„Р°Р№Р» - \"" + nameFile + "\".";
             }
 
         }
         if (text.toString().isEmpty()) {
-            return "В файле \"" + nameFile + "\" уже есть выбранные ОЗ.";
+            return "Р’ С„Р°Р№Р»Рµ \"" + nameFile + "\" СѓР¶Рµ РµСЃС‚СЊ РІС‹Р±СЂР°РЅРЅС‹Рµ РћР—.";
         } else if (fileExists) {
-            return "Файл \"" + nameFile + "\" - обновлён.\nДобавлено ОЗ: "
+            return "Р¤Р°Р№Р» \"" + nameFile + "\" - РѕР±РЅРѕРІР»С‘РЅ.\nР”РѕР±Р°РІР»РµРЅРѕ РћР—: "
                     + text + "\n" + textCatch;
         } else {
-            return "Файл \"" + nameFile + "\" - создан.\nВставлено ОЗ: "
+            return "Р¤Р°Р№Р» \"" + nameFile + "\" - СЃРѕР·РґР°РЅ.\nР”РѕР±Р°РІР»РµРЅРѕ РћР—: "
                     + text + "\n" + textCatch;
         }
     }
@@ -247,13 +247,13 @@ public class Mandatory {
     private void setPartList(File file) throws IOException {
         try (XSSFWorkbook workbook = new XSSFWorkbook(
                 new FileInputStream(file))) {
-            XSSFSheet openSheet = workbook.getSheet("Ремонт");
+            XSSFSheet openSheet = workbook.getSheet("ГђГҐГ¬Г®Г­ГІ");
             for (Row row : openSheet) {
                 Iterator<Cell> cellIterator = row.cellIterator();
                 while (cellIterator.hasNext()) {
                     boolean consist = false;
                     Cell cell = cellIterator.next();
-                    if ((cell.toString().contains("Расход") || cell.toString().contains("ОЗ")) && cell.getColumnIndex() == 7) {
+                    if ((cell.toString().contains("ГђГ Г±ГµГ®Г¤") || cell.toString().contains("ГЋГ‡")) && cell.getColumnIndex() == 7) {
                         int colGet = cell.getColumnIndex();
                         int rowGet = cell.getRowIndex();
                         XSSFCell pNumber = openSheet.getRow(rowGet).getCell(colGet - 6);
@@ -282,15 +282,4 @@ public class Mandatory {
     public ArrayList<PartNumber> getPartList(File file) {
         return partList;
     }
-
-//    public static void main(String[] args) {
-//        Mandatory mandatory = new Mandatory();
-//        File file = new File("C:/Users/Артём/Documents/Шаблоны КД/ВВК по ДВС/ВВК C15/КД C15 TXG Ar. 375-7224 (6) ver.2.xlsx");
-//        ArrayList<PartNumber> temp = mandatory.getPartList(file);
-//        temp.sort(null);
-//
-//        System.out.println("size - " + temp.size());
-//        temp.forEach(System.out::println);
-//
-//    }
 }
