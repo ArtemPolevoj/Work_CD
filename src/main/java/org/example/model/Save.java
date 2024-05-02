@@ -5,7 +5,7 @@ public class Save extends FileChooser {
 
     private void filePath() {
         super.settingExcel();
-        super.setDialogTitle("Выберете и создайте файл для сохранения.");
+        super.setDialogTitle("Р’С‹Р±РµСЂРµС‚Рµ Рё СЃРѕР·РґР°Р№С‚Рµ С„Р°Р№Р» РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ.");
         int i = super.showSaveDialog(null);
         if (i == 1) selectedFilePath = "";
         else selectedFilePath =  super.getSelectedFile().getPath();
