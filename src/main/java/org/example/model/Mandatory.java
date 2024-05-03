@@ -102,7 +102,7 @@ public class Mandatory {
                     newSheet = saveBook.createSheet(sheetName);
                 } catch (IllegalArgumentException e) {
                     JOptionPane.showMessageDialog(null,
-                            "Такое ОЗ уже существует в файле "" +
+                            "Такое ОЗ уже существует в файле " +
                                     nameFile + "\".");
                     continue;
                 }
@@ -247,7 +247,7 @@ public class Mandatory {
     private void setPartList(File file) throws IOException {
         try (XSSFWorkbook workbook = new XSSFWorkbook(
                 new FileInputStream(file))) {
-            XSSFSheet openSheet = workbook.getSheet("Ðåìîíò");
+            XSSFSheet openSheet = workbook.getSheet("Ремонт");
             for (Row row : openSheet) {
                 Iterator<Cell> cellIterator = row.cellIterator();
                 while (cellIterator.hasNext()) {
