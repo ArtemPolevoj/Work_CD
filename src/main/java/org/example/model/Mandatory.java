@@ -253,7 +253,7 @@ public class Mandatory {
                 while (cellIterator.hasNext()) {
                     boolean consist = false;
                     Cell cell = cellIterator.next();
-                    if ((cell.toString().contains("Ðàñõîä") || cell.toString().contains("ÎÇ")) && cell.getColumnIndex() == 7) {
+                    if ((cell.toString().contains("Износ") || cell.toString().contains("ОЗ")) && cell.getColumnIndex() == 7) {
                         int colGet = cell.getColumnIndex();
                         int rowGet = cell.getRowIndex();
                         XSSFCell pNumber = openSheet.getRow(rowGet).getCell(colGet - 6);
