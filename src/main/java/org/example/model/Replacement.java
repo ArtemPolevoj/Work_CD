@@ -70,21 +70,21 @@ public class Replacement {
                 }
                 workbook.close();
                 result.append(switch (amount) {
-                    case (0) -> "Р’ С„Р°Р№Р»Рµ \"" + nameFile
-                            + "\" РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ СЃРѕРІРїР°РґРµРЅРёСЏ.\n";
+                    case (0) -> "В файле \"" + nameFile
+                            + "\" отсутствуют совпадения.\n";
                     case (1), (21), (31), (41) ->
-                            "Р’ С„Р°Р№Р»Рµ \"" + nameFile + "\" РІС‹РїРѕР»РЅРµРЅР° "
-                                    + amount + " Р·Р°РјРµРЅР°.\n";
+                            "В файле \"" + nameFile + "\" выполнена "
+                                    + amount + " замена.\n";
                     case (2), (3), (4), (22), (23), (24) ->
-                            "Р’ С„Р°Р№Р»Рµ \"" + nameFile + "\" РІС‹РїРѕР»РЅРµРЅРѕ "
-                                    + amount + " Р·Р°РјРµРЅС‹.\n";
-                    default -> "Р’ С„Р°Р№Р»Рµ \"" + nameFile + "\" РІС‹РїРѕР»РЅРµРЅРѕ "
-                            + amount + " Р·Р°РјРµРЅ.\n";
+                            "В файле \"" + nameFile + "\" выполнено "
+                                    + amount + " замены.\n";
+                    default -> "В файле \"" + nameFile + "\" выполнено "
+                            + amount + " замен.\n";
                 });
             } catch (Exception e) {
-                result.append("Р’ С„Р°Р№Р»Рµ \"")
+                result.append("В файле \"")
                         .append(nameFile)
-                        .append("\"  РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°.").append(" РџСЂРѕРІРµСЂСЊС‚Рµ С„Р°Р№Р».\n");
+                        .append("\"  произошла ошибка.").append(" Проверьте файл.\n");
             }
         }
 
@@ -94,16 +94,16 @@ public class Replacement {
         result.delete(0, result.length());
         if (worldReplace.isEmpty()) {
             worldReplace = JOptionPane.showInputDialog(null,
-                    "Р’РІРµРґРёС‚Рµ СЃР»РѕРІРѕ РґР»СЏ Р·Р°РјРµРЅС‹.",
-                    "РќРµР»СЊР·СЏ РІС‹РїРѕР»РЅРёС‚СЊ Р·Р°РјРµРЅСѓ! ",
+                    "Введите слово для замены.",
+                    "Нельзя выполнить замену! ",
                     JOptionPane.WARNING_MESSAGE);
             if (worldReplace == null || worldReplace.isEmpty()) {
-                result.append("РќРµ РІРІРµРґРµРЅРѕ СЃР»РѕРІРѕ РґР»СЏ Р·Р°РјРµРЅС‹.\n");
+                result.append("Не введено слово для замены.\n");
 
             } else {
                 setOpenFile();
                 if (openFile.isEmpty()) {
-                    result.append("РќРµ РІС‹Р±СЂР°РЅ С„Р°Р№Р».\n");
+                    result.append("Не выбран файл.\n");
                 } else {
                     setWorldReplace(worldReplace);
                     replace();
@@ -112,7 +112,7 @@ public class Replacement {
         } else {
             setOpenFile();
             if (openFile.isEmpty()) {
-                result.append("РќРµ РІС‹Р±СЂР°РЅ С„Р°Р№Р».\n");
+                result.append("Не выбран файл.\n");
             } else {
                 replace();
             }
