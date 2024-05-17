@@ -11,7 +11,7 @@ public class ContRepl implements Repl {
     private final Replacement replacement;
 
     public void repls() {
-        areaOutText.append("Р—Р°РјРµРЅР° " + textField.getText() + " РЅР° " + fieldReplacement.getText() + "\n");
+        areaOutText.append("Замена " + textField.getText() + " на " + fieldReplacement.getText() + "\n");
         areaOutText.append(replacement.getResult(
                 textField.getText(),
                 fieldReplacement.getText()));
