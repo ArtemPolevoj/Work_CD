@@ -15,9 +15,11 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 public class Files {
     private File[] openDir;
     private ArrayList<File> files = new ArrayList<>();
+    private boolean isExcel;
     private String check;
 
-    public ArrayList<File> getFiles(String check) {
+    public ArrayList<File> getFiles(String check, boolean isExcel) {
+        this.isExcel = isExcel;
         setCheck(check);
         getList();
         return files;
@@ -28,7 +30,7 @@ public class Files {
     }
 
     private void setOpenDir() {
-        this.openDir = new Open().getSelectedFiles();
+        this.openDir = new Open(isExcel).getSelectedFiles();
     }
 
     private void getList() {
@@ -46,8 +48,8 @@ public class Files {
                     java.nio.file.Files.walkFileTree(path, vizit);
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null,
-                            "Не удалось обработать " + fileOpen,
-                            "Ошибка обработки", JOptionPane.ERROR_MESSAGE);
+                            "РќРµ СѓРґР°Р»РѕСЃСЊ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ " + fileOpen,
+                            "РћС€РёР±РєР° РѕР±СЂР°Р±РѕС‚РєРё", JOptionPane.ERROR_MESSAGE);
                 }
                 files = Vizit.get(check);
             }
@@ -70,7 +72,8 @@ public class Files {
                     files.add(file);
                 }
             }
+            temp.clear();
             return files;
         }
-    }
+     }
 }

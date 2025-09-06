@@ -1,19 +1,35 @@
 package org.example.model;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
-public class Open extends FileChooser {
-    private File[] selectedFiles;
+public class Open extends JFileChooser {
 
-    private void getFiles() {
-        super.settingExcel();
-        super.setDialogTitle("Выберете папку или файл(ы) для обработки.");
-        super.showOpenDialog(null);
-        selectedFiles = super.getSelectedFiles();
+    public Open(boolean isExcel) {
+        if (isExcel) {
+            setExcelFiles();
+        } else {
+            setWordFiles();
+        }
+        setting();
     }
 
-    public File[] getSelectedFiles() {
-        getFiles();
-        return selectedFiles;
+    private void setExcelFiles() {
+        super.addChoosableFileFilter(new FileNameExtensionFilter
+                ("Excel.xlsx", "xlsx"));
+    }
+
+    private void setWordFiles() {
+        super.addChoosableFileFilter(new FileNameExtensionFilter
+                ("Word.docx", "docx"));
+    }
+
+    private void setting() {
+        super.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        super.setMultiSelectionEnabled(true);
+        super.setAcceptAllFileFilterUsed(false);
+        super.setDialogTitle("Р’С‹Р±РµСЂРµС‚Рµ РїР°РїРєСѓ РёР»Рё С„Р°Р№Р»(С‹) РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё.");
+        super.showOpenDialog(null);
     }
 }

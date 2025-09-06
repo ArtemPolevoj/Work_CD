@@ -12,7 +12,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Replacement {
+public class ReplacementExcel {
     private String worldReplace;
     private String worldReplacement;
 
@@ -30,11 +30,10 @@ public class Replacement {
 
 
     private void setOpenFile() {
-        this.openFile = new Files().getFiles("");
+        this.openFile = new Files().getFiles(".xlsx", true);
     }
 
     private void setWorldReplace(String worldReplace) {
-
         this.worldReplace = worldReplace;
     }
 
@@ -43,17 +42,13 @@ public class Replacement {
     }
 
     private void replace() {
-
         for (File file : openFile) {
             int amount = 0;
             String nameFile = file.getName();
-            try (XSSFWorkbook workbook = new XSSFWorkbook(
-                    new FileInputStream(file))) {
+            try (XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(file))) {
                 for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
                     Sheet sheet = workbook.getSheetAt(s);
-
                     for (Row row : sheet) {
-
                         Iterator<Cell> cellIterator = row.cellIterator();
                         while (cellIterator.hasNext()) {
                             Cell cell = cellIterator.next();
@@ -65,57 +60,41 @@ public class Replacement {
                         }
                     }
                 }
+                result.append(switch (amount) {
+                    case (0) -> "Р’ С„Р°Р№Р»Рµ \"" + nameFile
+                            + "\" РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ СЃРѕРІРїР°РґРµРЅРёСЏ.\n";
+                    case (1), (21), (31), (41) -> "Р’ С„Р°Р№Р»Рµ \"" + nameFile + "\" РІС‹РїРѕР»РЅРµРЅР° "
+                            + amount + " Р·Р°РјРµРЅР°.\n";
+                    case (2), (3), (4), (22), (23), (24) -> "Р’ С„Р°Р№Р»Рµ \"" + nameFile + "\" РІС‹РїРѕР»РЅРµРЅРѕ "
+                            + amount + " Р·Р°РјРµРЅС‹.\n";
+                    default -> "Р’ С„Р°Р№Р»Рµ \"" + nameFile + "\" РІС‹РїРѕР»РЅРµРЅРѕ "
+                            + amount + " Р·Р°РјРµРЅ.\n";
+
+                });
                 try (FileOutputStream writeFile = new FileOutputStream(file)) {
                     workbook.write(writeFile);
                 }
-                workbook.close();
-                result.append(switch (amount) {
-                    case (0) -> "В файле \"" + nameFile
-                            + "\" отсутствуют совпадения.\n";
-                    case (1), (21), (31), (41) ->
-                            "В файле \"" + nameFile + "\" выполнена "
-                                    + amount + " замена.\n";
-                    case (2), (3), (4), (22), (23), (24) ->
-                            "В файле \"" + nameFile + "\" выполнено "
-                                    + amount + " замены.\n";
-                    default -> "В файле \"" + nameFile + "\" выполнено "
-                            + amount + " замен.\n";
-                });
             } catch (Exception e) {
-                result.append("В файле \"")
+                result.append("Р’ С„Р°Р№Р»Рµ \"")
                         .append(nameFile)
-                        .append("\"  произошла ошибка.").append(" Проверьте файл.\n");
+                        .append("\"  РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°: ")
+                        .append(e.getMessage())
+                        .append("\n")
+                        .append(" РџСЂРѕРІРµСЂСЊС‚Рµ С„Р°Р№Р».\n");
             }
         }
 
     }
 
     private void setResult() {
-        result.delete(0, result.length());
-        if (worldReplace.isEmpty()) {
-            worldReplace = JOptionPane.showInputDialog(null,
-                    "Введите слово для замены.",
-                    "Нельзя выполнить замену! ",
-                    JOptionPane.WARNING_MESSAGE);
-            if (worldReplace == null || worldReplace.isEmpty()) {
-                result.append("Не введено слово для замены.\n");
-
-            } else {
-                setOpenFile();
-                if (openFile.isEmpty()) {
-                    result.append("Не выбран файл.\n");
-                } else {
-                    setWorldReplace(worldReplace);
-                    replace();
-                }
-            }
+        result.setLength(0);
+        openFile.clear();
+        setOpenFile();
+        if (openFile.isEmpty()) {
+            result.append("РќРµ РІС‹Р±СЂР°РЅ С„Р°Р№Р».\n");
         } else {
-            setOpenFile();
-            if (openFile.isEmpty()) {
-                result.append("Не выбран файл.\n");
-            } else {
-                replace();
-            }
+            replace();
         }
+
     }
 }
