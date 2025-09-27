@@ -14,7 +14,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class Files {
     private File[] openDir;
-    private ArrayList<File> files = new ArrayList<>();
+    private final ArrayList<File> files = new ArrayList<>();
     private boolean isExcel;
     private String check;
 
@@ -51,7 +51,7 @@ public class Files {
                             "Не удалось обработать " + fileOpen,
                             "Ошибка обработки", JOptionPane.ERROR_MESSAGE);
                 }
-                files = Vizit.get(check);
+                files.addAll(Vizit.get(check));
             }
         }
     }

@@ -1,8 +1,8 @@
 package org.example.model;
 
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.*;
+
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTHeaderFooter;
 
 import javax.swing.*;
 import java.io.File;
@@ -44,20 +44,37 @@ public class ReplacementWord {
             int amount = 0;
             String nameFile = file.getName();
             try (XWPFDocument workbook = new XWPFDocument(new FileInputStream(file))) {
-                for (XWPFParagraph paragraph : workbook.getParagraphs()) {
-                    List<XWPFRun> runs = paragraph.getRuns();
-                    if (runs != null && !runs.isEmpty()) {
-                        for (XWPFRun run : runs) {
-                            String text = run.toString();
-                            if (text.contains(worldReplace)) {
-                                amount++;
-                                text = text.replaceAll(worldReplace, worldReplacement);
-                                run.setText(text, 0); // Устанавливаем новый текст
+//                for (XWPFParagraph paragraph : workbook.getParagraphs()) {
+//                    List<XWPFRun> runs = paragraph.getRuns();
+//                    if (runs != null && !runs.isEmpty()) {
+//                        for (XWPFRun run : runs) {
+//                            String text = run.text();
+//                            if (text.contains(worldReplace)) {
+//                                amount++;
+//                                text = text.replaceAll(worldReplace, worldReplacement);
+//                                run.setText(text, 0); // Устанавливаем новый текст
+//                            }
+//
+//                        }
+//                    }
+//                }
+                List<XWPFHeader> footers = workbook.getHeaderList();
+                for(XWPFHeader footer : footers) {
+                    if(footer != null) {
+                        for(XWPFParagraph paragraph : footer.getParagraphs()) {
+                            List<XWPFRun> runs = paragraph.getRuns();
+                            for(XWPFRun run : runs) {
+                                String text = run.text();
+                                if(text.contains(worldReplace)) {
+                                    amount++;
+                                    text = text.replaceAll(worldReplace, worldReplacement);
+                                run.setText(text, 0);
+                                }
                             }
-
                         }
                     }
                 }
+
                 try (FileOutputStream writeFile = new FileOutputStream(file)) {
                     workbook.write(writeFile);
                 }
